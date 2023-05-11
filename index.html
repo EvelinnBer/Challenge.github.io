@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cifrado de texto</title>
+    <meta charset="UTF-8">
+    <style>
+        /* Estilos CSS */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #000000;
+            border-radius: 4px;
+            width: 80%;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: hwb(236 0% 0%);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background-color: hwb(236 0% 0%);
+        }
+
+        /* Estilos para el modo oscuro */
+        body.dark-mode {
+            background-color: black;
+            color: white;
+        }
+
+        body.dark-mode input[type="text"] {
+            border-color: #ee3232;
+        }
+
+        body.dark-mode button {
+            background-color: #ee3232;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Cifrado de texto</h1>
+    <label for="texto">Texto:</label>
+    <input type="text" id="texto">
+    <br><br>
+    <button onclick="encriptar()">Encriptar</button>
+    <button onclick="desencriptar()">Desencriptar</button>
+    <button onclick="copiarResultado()">Copiar resultado</button>
+    <button onclick="toggleDarkMode()">Modo Oscuro</button>
+    <br><br>
+    <label for="resultado">Resultado:</label>
+    <input type="text" id="resultado">
+
+    <script>
+
+        //Funcion para saltar linea
+        function saltarLinea() {
+            document.write("<br>");
+            document.write("<br>");
+            document.write("<br>");
+            document.write("<br>");
+            document.write("<br>");
+            document.write("<br>");
+            document.write("<br>");
+            document.write("<br>");
+            document.write("<br>");
+            document.write("<br>");
+            document.write("<br>");
+            document.write("<br>");
+            document.write("<br>");
+            document.write("<br>");
+            document.write("<br>");
+        }
+
+        //Funcion para cambiar a modo oscuro
+        function toggleDarkMode() {
+            var body = document.body;
+            body.classList.toggle("dark-mode");
+        }
+
+        // Alfabeto utilizado para el cifrado y descifrado
+        var alfabeto = "abcdefghijklmnopqrstuvwxyz";
+
+        // Función para mostrar una alerta de error si se ingresan letras mayúsculas
+        function mostrarAlertaError() {
+            alert("Error: Solo se permiten letras minúsculas.");
+        }
+
+        // Función para mostrar una alerta de error si se ingresan caracteres especiales
+        function mostrarAlertaCaracterEspecial() {
+            alert("Error: No se permiten caracteres especiales.");
+        }
+
+        // Función para validar el texto ingresado antes de realizar el cifrado o descifrado
+        function validarTexto() {
+            var texto = document.getElementById("texto").value;
+            var textoLowerCase = texto.toLowerCase();
+
+            // Verificar si se ingresaron letras mayúsculas
+            if (texto !== textoLowerCase) {
+                mostrarAlertaError();
+                return false;
+            }
+
+            // Expresión regular para buscar caracteres especiales
+            var caracteresEspeciales = /[áéíóúñ.,(){}""#$%&/=!?¿]/;
+            if (caracteresEspeciales.test(texto)) {
+                mostrarAlertaCaracterEspecial();
+                return false;
+            }
+
+            return true;
+        }
+
+        // Función para realizar el cifrado del texto
+        function encriptar() {
+            if (!validarTexto()) {
+                return;
+            }
+
+            var texto = document.getElementById("texto").value.toLowerCase();
+            var resultado = "";
+
+            for (var i = 0; i < texto.length; i++) {
+                var charIndex = alfabeto.indexOf(texto.charAt(i));
+                if (charIndex != -1) {
+                    resultado += alfabeto.charAt((charIndex + 3) % 26);
+                } else {
+                    resultado += texto.charAt(i);
+                }
+            }
+
+            document.getElementById("resultado").value = resultado;
+        }
+
+        // Función para realizar el descifrado del texto
+        function desencriptar() {
+            if (!validarTexto()) {
+                return;
+            }
+
+            var texto = document.getElementById("resultado").value.toLowerCase();
+            var resultado = "";
+
+            for (var i = 0; i < texto.length; i++) {
+                var charIndex = alfabeto.indexOf(texto.charAt(i));
+                if (charIndex != -1) {
+                    resultado += alfabeto.charAt((charIndex + 23) % 26);
+                } else {
+                    resultado += texto.charAt(i);
+                }
+            }
+
+            document.getElementById("resultado").value = resultado;
+        }
+
+        // Función para realizar copia al resultado 
+        function copiarResultado() {
+            var resultado = document.getElementById("resultado");
+            resultado.select();
+            document.execCommand("copy");
+        }
+    </script>
+</body>
+
+</html>
+
+<script>
+    saltarLinea();
+</script>
+<footer>
+    <p><em><strong>Desarrollador: Sebastian Martinez</strong></em></p>
+    <p><em><strong>Contacto:martinezpabonsebastian@gmail.com</strong></em></p>
+    <p><em><strong>Año de desarrollo: 2023</strong></em></p>
+</footer>
+</body>
+
+</html>
